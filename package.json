@@ -1,0 +1,45 @@
+{
+  "name": "gpx-hr-merge",
+  "version": "1.0.0",
+  "description": "Merge heart rate data into gpx file from tcx file",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "tsc && node ./dist/index.js",
+    "lint": "eslint ./src --ext .ts",
+    "lint-and-fix": "eslint ./src --ext .ts --fix",
+    "prettify": "prettier ./src/**/*.ts -w"
+  },
+  "keywords": [
+    "tcx",
+    "gpx",
+    "heart-rate",
+    "heartrate",
+    "hr"
+  ],
+  "author": "Michał Kamiński",
+  "license": "UNLICENSE",
+  "engines": {
+    "node": ">=17.0.0"
+  },
+  "dependencies": {
+    "xml2js": "^0.4.23"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/xml2js": "^0.4.11",
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
+    "@typescript-eslint/parser": "^5.29.0",
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "typescript": "^4.7.4"
+  },
+  "lint-staged": {
+    "*.ts": "eslint ./src --ext .ts"
+  }
+}
