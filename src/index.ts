@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { existsSync } from "fs";
 import { extname } from "path";
 import * as readline from "readline";
@@ -9,7 +11,7 @@ import { mergeHr } from "./merge";
     "Usage:\n\tgpx-hr-merge <gpx file> <tcx file> [<output file>]\n\nIf called without <output file>, will overwrite <gpx file>.";
   const args = process.argv.slice(2);
   if (args.length !== 2 && args.length !== 3) {
-    console.log(`Invalid number of parameters.\n${usageMessage}`);
+    console.error(`Invalid number of parameters.\n${usageMessage}`);
     process.exit(-1);
   }
 
@@ -18,7 +20,7 @@ import { mergeHr } from "./merge";
   const resultFile = args.length === 3 ? args[2] : args[1];
 
   if (extname(gpxFile) !== ".gpx" || extname(tcxFile) !== ".tcx") {
-    console.log(`Invalid parameters. First parameter must be GPX file, second must be TCX file.\n${usageMessage}`);
+    console.error(`Invalid parameters. First parameter must be GPX file, second must be TCX file.\n${usageMessage}`);
     process.exit(-2);
   }
 

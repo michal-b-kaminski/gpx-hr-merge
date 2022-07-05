@@ -1,8 +1,11 @@
+import createDebug from "debug";
 import { promises as fsPromises } from "fs";
 import { Parser, Builder } from "xml2js";
 
 import { GpxFile } from "./gpx";
 import { Lap, TpxFile, Trackpoint } from "./tpx";
+
+const debug = createDebug("gpx-gr-merge");
 
 export async function mergeHr(
   gpxFile: string,
@@ -32,7 +35,7 @@ export async function mergeHr(
     },
     [] as Trackpoint[]
   );
-  console.log(`Merging ${trackPoints.length} GPX points with ${hrPoints.length} HR points...`);
+  debug(`Merging ${trackPoints.length} GPX points with ${hrPoints.length} HR points...`);
   let loops = 0;
   let matches = 0;
   for (
@@ -55,7 +58,7 @@ export async function mergeHr(
       }
 
       if (trackPoint.extensions?.some((ext) => ext["gpxtpx:TrackPointExtension"][0]["gpxtpx:hr"]?.length ?? 0 > 0)) {
-        console.log(`GPX at ${trackPoint.time[0]} already has HR`);
+        debug(`GPX at ${trackPoint.time[0]} already has HR`);
       } else {
         if (!trackPoint.extensions) {
           trackPoint.extensions = [];
@@ -75,7 +78,7 @@ export async function mergeHr(
     } else {
       gpxPos++;
 
-      console.log(`Unmatched GPX at ${trackPoint.time[0]}`, [dateDiff, srcTime, trgTime, nextTrgTime]);
+      debug(`Unmatched GPX at ${trackPoint.time[0]}`, [dateDiff, srcTime, trgTime, nextTrgTime]);
     }
   }
 
@@ -83,10 +86,13 @@ export async function mergeHr(
 
   await fsPromises.writeFile(resultFile, xml);
 
-  return {
+  const result = {
     gpxPoints: trackPoints.length,
     hrPoints: hrPoints.length,
     loops,
     matches,
   };
+
+  debug("%o", result);
+  return result;
 }
